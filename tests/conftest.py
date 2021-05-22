@@ -9,7 +9,7 @@ import sparta as flask_app
 
 @pytest.fixture
 def app():
-    test_app = flask_app.create_app(database_name=test_database_name)
+    test_app = flask_app.create_app()
 
     yield test_app
 
