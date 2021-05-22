@@ -7,6 +7,10 @@ on: [push]
 jobs:
   build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: camping_review_self
 
     steps:
       - uses: actions/checkout@v2
