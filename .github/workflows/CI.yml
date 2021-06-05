@@ -2,21 +2,33 @@
 
 name: CI
 
-on: [push]
+on: [push, pull_request]
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
-      - name: Set up Python
+      - name: checkout
+        uses: actions/checkout@v2
+      - name: Set up Python 3.9
         uses: actions/setup-python@v2
         with:
-          python-version: "3.x"
-      - name: Install dependencies
+          python-version: 3.9
+      - name: Start MongoDB
+        uses: supercharge/mongodb-github-action@1.4.1
+        with:
+          mongodb-version: 4.4
+      - name: install requirements
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-      - name: Test with pytest
-        run: pytest
+      - name: test
+        env:
+          JWT_SECRET: "secret"
+          CLIENT_ID: ""
+          CALLBACK_URL: ""
+          SERVICE_URL: ""
+          MONGODB_HOST: "mongodb://localhost:27017"
+        run: |
+          pytest
